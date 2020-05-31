@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
 
 // Main : C'est par ici que l'application démarre
 int main()
@@ -10,7 +11,7 @@ int main()
 	int y = 600;
 
 	// Titre
-	const char* title = "Hello World !";
+	const char* title = "Magnetic Shoes";
 
 	// Fenêtre
   	sf::RenderWindow window( sf::VideoMode(x, y), title);
@@ -30,12 +31,26 @@ int main()
 	// Fichier de police présent
   	else
   	{
-		// Texte
-    		sf::Text text( "Hello World !", font, 50 );
-    		sf::FloatRect textRect = text.getLocalBounds();
-		text.setOrigin(textRect.left + textRect.width/2.0f, textRect.top  + textRect.height/2.0f);
-		text.setPosition(sf::Vector2f(x/2.0f,y/2.0f));
+		// Background
+        	sf::Texture background;	
+		background.loadFromFile("title_image.jpg");
+		sf::Vector2u bg_size = background.getSize();
 		
+		// Sprite
+		sf::Sprite bg_sprite;
+        	bg_sprite.setTexture(background);
+        	bg_sprite.setOrigin(bg_size.x / 2, bg_size.y / 2);
+		bg_sprite.setPosition(sf::Vector2f(x/2.0f, y/2.0f));
+		//bg_sprite.setScale(x/bg_size.x, y/bg_size.y);
+
+		// Texte
+    		sf::Text text(title, font, 50);
+    		sf::FloatRect text_rect = text.getLocalBounds();
+		text.setOrigin(text_rect.left + text_rect.width/2.0f, text_rect.top  + text_rect.height/2.0f);
+		text.setPosition(sf::Vector2f(x/1.60f,y/3.70f));
+		sf::Color color(190,190,190); 
+		text.setColor(color);
+
 		// Tant que la fenêtre est ouverte
   		while( window.isOpen() )
   		{
@@ -62,8 +77,9 @@ int main()
 			//text.setStyle(sf::Text::Bold);
 			
 			// Afficahge du texte
+    			window.draw(bg_sprite);
 			window.draw(text);
-    			window.display();
+			window.display();
   		}
   		
 		// Affichage de la fenêtre
