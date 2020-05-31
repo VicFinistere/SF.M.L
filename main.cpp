@@ -3,12 +3,12 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
-// Main : C'est par ici que l'application démarre
-int main()
+// Intro
+int intro()
 {
 	// Position de la fenêtre
 	int x = 800;
-	int y = 600;
+	int y = 400;
 
 	// Titre
 	const char* title = "Magnetic Shoes";
@@ -66,6 +66,10 @@ int main()
 					// Fermeture de la fenêtre
         				window.close();
       				}
+				else if(event.type == sf::Event::MouseButtonPressed)
+				{
+					return 2;
+				}
    	 		}
 			// Mise à zéro de la fenêtre
     			window.clear();
@@ -89,3 +93,69 @@ int main()
   		return EXIT_SUCCESS;
 	}
 }
+
+int level1()
+{
+	// Position de la fenêtre
+	int x = 800;
+	int y = 400;
+
+	// Titre
+	const char* title = "Level 1";
+
+	// Fenêtre
+  	sf::RenderWindow window( sf::VideoMode(x, y), title);
+  	
+	// Player
+       	sf::Texture player;	
+	player.loadFromFile("player.png");
+	sf::Vector2u player_size = player.getSize();		
+	
+	// Sprite
+	sf::Sprite player_sprite;
+        player_sprite.setTexture(player);
+        player_sprite.setOrigin(player_size.x / 2, player_size.y / 2);
+	float quater_player = (float)player_size.y/4;
+	player_sprite.setPosition(sf::Vector2f(x/2.0f, y - quater_player));
+	player_sprite.setScale(0.5, 0.5);
+
+	// Tant que la fenêtre est ouverte
+  	while( window.isOpen() )
+  	{
+		// Instanciation de l'évenement
+    		sf::Event event;
+
+		// Tant que la fenêtre reçoit des actions
+    		while( window.pollEvent( event ) )
+    		{
+			// Si l'action est une tentative de fermeture
+      		
+			if( event.type == sf::Event::Closed )	
+			{
+				// Fermeture de la fenêtre
+        			window.close();
+      			}
+		}
+		// Mise à zéro de la fenêtre
+	    	window.clear();	
+    		window.draw(player_sprite);
+		window.display();
+  	}
+  		
+	// Affichage de la fenêtre
+	window.display();
+
+	// Fermeture correcte du programme
+  	return EXIT_SUCCESS;
+
+}
+
+// Main program
+int main()
+{
+	if(intro() == 2)
+	{
+		level1();
+	}
+}
+
